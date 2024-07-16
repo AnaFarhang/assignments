@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunch Checker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body ng-app="LunchCheck">
+    <div ng-controller="LunchCheckController">
+        <input type="text" ng-model="name" placeholder="Enter lunch items, separated by commas">
+        <button ng-click="CheckIfTooMuch()">Check If Too Much</button>
+        <p ng-show="message">{{message}}</p>
+    </div>
+    <script>
+        (function () {
+            'use strict';
+            angular.module('LunchCheck', [])
+            .controller('LunchCheckController', LunchCheckController);
+            LunchCheckController.$inject = ['$scope'];
+            function LunchCheckController($scope) {
+                $scope.name = ""; // Initial value for the input
+                $scope.CheckIfTooMuch = function () {
+                    if (!$scope.name) {
+                        $scope.message = "Please enter data first";
+                        return;
+                    }
+                    var words = $scope.name.split(',').map(function (item) {
+                        return item.trim();
+                    }).filter(function (item){
+                        return item != '';
+                    });
+                    if (words.length <= 3) {
+                        $scope.message = "Enjoy!";
+                    } else {
+                        $scope.message = "Too much!";
+                    }
+                };
+            }
+        })();
+    </script>
+</body>
+</html>
